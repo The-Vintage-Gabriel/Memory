@@ -30,3 +30,8 @@ static string[,] testifturned()
     
 }
 
+static bool updateMemory() {
+    
+}
+
+
