@@ -1,6 +1,4 @@
-﻿
-    
-    static bool isTurned = false;
+﻿    static bool isTurned = false;
     
     static string[] a = new string[] { "Schmetterling", "Glühbirne", "Kaffeetasse", "Regenbogen", "Windmühle", "Sternenhimmel" };
     static string[] b = new string[] { "Taschenlampe", "Sanduhr", "Wolkenbruch", "Federkissen", "Ziegelstein", "Wasserfall" };
@@ -20,15 +18,7 @@
     };
 
    
-     
-        Console.WriteLine("--- Ursprüngliches Spielfeld ---");
-        print(field);
-
-        Console.WriteLine("\n--- Zufällig gemischtes Spielfeld ---");
-        field = rndfield(field);
-        print(field);
-    
-    
+   
     static void print(string[,] currentField)
     {
         int rows = currentField.GetLength(0);
