@@ -3,21 +3,22 @@ using System.Threading;
 
 class Program
 {
-   
+
     static int rows = 6;
     static int cols = 6;
 
-  
-    static string[,] field = {
-        {"Schmetterling", "Glühbirne", "Kaffeetasse", "Regenbogen", "Windmühle", "Sternenhimmel"},
-        {"Taschenlampe", "Sanduhr", "Wolkenbruch", "Federkissen", "Ziegelstein", "Wasserfall"},
-        {"Fetzen", "Glitzerstaub", "Fahrradklingel", "Murmeltier", "Papierflieger", "Dinosauria"},
-        {"Fahrradklingel", "Glitzerstaub", "Taschenlampe", "Fetzen", "Glühbirne", "Sanduhr"},
-        {"Glitzerstaub", "Wolkenbruch", "Kaffeetasse", "Murmeltier", "Federkissen", "Regenbogen"},
-        {"Windmühle", "Ziegelstein", "Papierflieger", "Sternenhimmel", "Wasserfall", "Dinosauria"}
+
+    static string[,] field =
+    {
+        { "Schmetterling", "Glühbirne", "Kaffeetasse", "Regenbogen", "Windmühle", "Sternenhimmel" },
+        { "Taschenlampe", "Sanduhr", "Wolkenbruch", "Federkissen", "Ziegelstein", "Wasserfall" },
+        { "Fetzen", "Schmetterling", "Fahrradklingel", "Murmeltier", "Papierflieger", "Dinosaulia"},
+        { "Fahrradklingel", "Glitzerstaub", "Taschenlampe", "Fetzen", "Glühbirne", "Sanduhr" },
+        { "Glitzerstaub", "Wolkenbruch", "Kaffeetasse", "Murmeltier", "Federkissen", "Regenbogen" },
+        { "Windmühle", "Ziegelstein", "Papierflieger", "Sternenhimmel", "Wasserfall", "Dinosaulia" }
     };
 
-    
+
     static bool[,] revealed = new bool[6, 6];
 
 
@@ -30,7 +31,7 @@ class Program
 
         field = rndfield(field);
 
- 
+
         while (scorePlayer1 + scorePlayer2 < 18)
         {
             Console.Clear();
@@ -38,10 +39,10 @@ class Program
             Console.WriteLine($"Spieler 1: {scorePlayer1} Paare | Spieler 2: {scorePlayer2} Paare");
             Console.WriteLine($"Es ist AM ZUG: Spieler {currentPlayer}\n");
 
-          
+
             print(field);
 
-            
+
             Console.WriteLine("\n--- Erste Karte auswählen ---");
             int r1 = GetValidCoordinate("Zeile (1-6): ") - 1;
             int c1 = GetValidCoordinate("Spalte (1-6): ") - 1;
@@ -53,11 +54,11 @@ class Program
                 continue;
             }
 
-            revealed[r1, c1] = true; 
+            revealed[r1, c1] = true;
             Console.Clear();
-            print(field); 
+            print(field);
 
-            
+
             Console.WriteLine("\n--- Zweite Karte auswählen ---");
             int r2 = GetValidCoordinate("Zeile (1-6): ") - 1;
             int c2 = GetValidCoordinate("Spalte (1-6): ") - 1;
@@ -65,7 +66,7 @@ class Program
             if (r1 == r2 && c1 == c2)
             {
                 Console.WriteLine("Du kannst nicht dieselbe Karte zweimal wählen! Start von vorn.");
-                revealed[r1, c1] = false; 
+                revealed[r1, c1] = false;
                 Console.ReadLine();
                 continue;
             }
@@ -73,61 +74,61 @@ class Program
             if (revealed[r2, c2])
             {
                 Console.WriteLine("Diese Karte ist schon offen! Start von vorn.");
-                revealed[r1, c1] = false; 
+                revealed[r1, c1] = false;
                 Console.ReadLine();
                 continue;
             }
 
-            revealed[r2, c2] = true; 
+            revealed[r2, c2] = true;
             Console.Clear();
             print(field);
 
-           
+
             if (field[r1, c1] == field[r2, c2])
             {
                 Console.WriteLine($"\nTreffer! '{field[r1, c1]}' ist ein Paar.");
                 if (currentPlayer == 1) scorePlayer1++;
                 else scorePlayer2++;
 
-                
-                Thread.Sleep(2000); 
+
+                Thread.Sleep(2000);
             }
             else
             {
                 Console.WriteLine("\nKein Treffer. Karten werden wieder verdeckt...");
-                Thread.Sleep(2500); 
-                
-                
+                Thread.Sleep(2500);
+
+
                 revealed[r1, c1] = false;
                 revealed[r2, c2] = false;
 
-              
+
                 currentPlayer = (currentPlayer == 1) ? 2 : 1;
             }
         }
 
-       
+
         Console.Clear();
         Console.WriteLine("=== SPIEL ENDE ===");
         Console.WriteLine($"Endstand - Spieler 1: {scorePlayer1} | Spieler 2: {scorePlayer2}");
-        
+
         if (scorePlayer1 > scorePlayer2) Console.WriteLine("Spieler 1 hat gewonnen!");
         else if (scorePlayer2 > scorePlayer1) Console.WriteLine("Spieler 2 hat gewonnen!");
         else Console.WriteLine("Unentschieden!");
     }
 
-    
+
     static void print(string[,] currentField)
     {
-       
+
         Console.Write("      ");
         for (int c = 1; c <= cols; c++) Console.Write($"[S{c}]".PadRight(16));
         Console.WriteLine("\n" + new string('-', 105));
 
         for (int i = 0; i < rows; i++)
         {
-           
-            Console.Write($"[Z{i+1}] ");
+
+            Console.Write($"[Z{i + 1}] ");
 
             for (int j = 0; j < cols; j++)
             {
@@ -140,11 +141,12 @@ class Program
                     Console.Write("[ X ]".PadRight(16));
                 }
             }
+
             Console.WriteLine();
         }
     }
 
-    
+
     static string[,] rndfield(string[,] currentField)
     {
         Random rand = new Random();
@@ -167,4 +169,22 @@ class Program
 
         return currentField;
     }
-    
+
+
+    static int GetValidCoordinate(string text)
+    {
+        Console.Write(text);
+        int cordinate = int.Parse(Console.ReadLine());
+        
+        
+        if (cordinate >= 7)
+        {
+            return 0;
+        }
+        else
+        {
+            return cordinate;
+        }
+    }
+}
+ 
