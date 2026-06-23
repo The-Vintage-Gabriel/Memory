@@ -3,10 +3,8 @@ using System.Threading;
 
 class Program
 {
-
     static int rows = 6;
     static int cols = 6;
-
 
     static string[,] field =
     {
@@ -18,9 +16,7 @@ class Program
         { "Windmühle", "Ziegelstein", "Papierflieger", "Sternenhimmel", "Wasserfall", "Dinosaulia" }
     };
 
-
     static bool[,] revealed = new bool[6, 6];
-
 
     static int scorePlayer1 = 0;
     static int scorePlayer2 = 0;
@@ -28,20 +24,16 @@ class Program
 
     static void Main(string[] args)
     {
-
         field = rndfield(field);
-
 
         while (scorePlayer1 + scorePlayer2 < 18)
         {
             Console.Clear();
-            Console.WriteLine($"=== MEMORY SPIEL ===");
+            Console.WriteLine("=== MEMORY SPIEL ===");
             Console.WriteLine($"Spieler 1: {scorePlayer1} Paare | Spieler 2: {scorePlayer2} Paare");
             Console.WriteLine($"Es ist AM ZUG: Spieler {currentPlayer}\n");
 
-
             print(field);
-
 
             Console.WriteLine("\n--- Erste Karte auswählen ---");
             int r1 = GetValidCoordinate("Zeile (1-6): ") - 1;
@@ -57,7 +49,6 @@ class Program
             revealed[r1, c1] = true;
             Console.Clear();
             print(field);
-
 
             Console.WriteLine("\n--- Zweite Karte auswählen ---");
             int r2 = GetValidCoordinate("Zeile (1-6): ") - 1;
@@ -83,13 +74,14 @@ class Program
             Console.Clear();
             print(field);
 
-
             if (field[r1, c1] == field[r2, c2])
             {
                 Console.WriteLine($"\nTreffer! '{field[r1, c1]}' ist ein Paar.");
-                if (currentPlayer == 1) scorePlayer1++;
-                else scorePlayer2++;
 
+                if (currentPlayer == 1)
+                    scorePlayer1++;
+                else
+                    scorePlayer2++;
 
                 Thread.Sleep(2000);
             }
@@ -98,36 +90,39 @@ class Program
                 Console.WriteLine("\nKein Treffer. Karten werden wieder verdeckt...");
                 Thread.Sleep(2500);
 
-
                 revealed[r1, c1] = false;
                 revealed[r2, c2] = false;
 
-
-                currentPlayer = (currentPlayer == 1) ? 2 : 1;
+                if (currentPlayer == 1)
+                    currentPlayer = 2;
+                else
+                    currentPlayer = 1;
             }
         }
-
 
         Console.Clear();
         Console.WriteLine("=== SPIEL ENDE ===");
         Console.WriteLine($"Endstand - Spieler 1: {scorePlayer1} | Spieler 2: {scorePlayer2}");
 
-        if (scorePlayer1 > scorePlayer2) Console.WriteLine("Spieler 1 hat gewonnen!");
-        else if (scorePlayer2 > scorePlayer1) Console.WriteLine("Spieler 2 hat gewonnen!");
-        else Console.WriteLine("Unentschieden!");
+        if (scorePlayer1 > scorePlayer2)
+            Console.WriteLine("Spieler 1 hat gewonnen!");
+        else if (scorePlayer2 > scorePlayer1)
+            Console.WriteLine("Spieler 2 hat gewonnen!");
+        else
+            Console.WriteLine("Unentschieden!");
     }
-
 
     static void print(string[,] currentField)
     {
-
         Console.Write("      ");
-        for (int c = 1; c <= cols; c++) Console.Write($"[S{c}]".PadRight(16));
+
+        for (int c = 1; c <= cols; c++)
+            Console.Write($"[S{c}]".PadRight(16));
+
         Console.WriteLine("\n" + new string('-', 105));
 
         for (int i = 0; i < rows; i++)
         {
-
             Console.Write($"[Z{i + 1}] ");
 
             for (int j = 0; j < cols; j++)
@@ -145,7 +140,6 @@ class Program
             Console.WriteLine();
         }
     }
-
 
     static string[,] rndfield(string[,] currentField)
     {
@@ -170,21 +164,30 @@ class Program
         return currentField;
     }
 
-
     static int GetValidCoordinate(string text)
     {
-        Console.Write(text);
-        int cordinate = int.Parse(Console.ReadLine());
-        
-        
-        if (cordinate >= 7)
+        int coordinate;
+
+        while (true)
         {
-            return 0;
-        }
-        else
-        {
-            return cordinate;
+            Console.Write(text);
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out coordinate))
+            {
+                if (coordinate >= 1 && coordinate <= 6)
+                {
+                    return coordinate;
+                }
+                else
+                {
+                    Console.WriteLine("Bitte nur Zahlen von 1 bis 6 eingeben.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ungültige Eingabe! Bitte eine Zahl eingeben.");
+            }
         }
     }
 }
- 
